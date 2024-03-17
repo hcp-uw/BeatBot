@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function App() {
   const CLIENT_ID = "98b7d6d384cc4503a01bd5d9864b49b0"
