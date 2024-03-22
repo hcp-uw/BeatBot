@@ -1,3 +1,29 @@
 .App {
   text-align: center;
 }
+
+.tracks-container {
+  margin-top: 20px;
+}
+
+.track-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.track-name {
+  flex-grow: 0.5;
+}
+
+.track-artists {
+  margin-left: 20px;
+  flex-grow: 2;
+}
+
+.add-btn {
+  margin-left: auto;
+  padding: 5px 10px;
+}
