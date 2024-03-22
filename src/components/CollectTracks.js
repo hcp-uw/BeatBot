@@ -17,7 +17,8 @@ export default function CollectTracks(props) {
                 },
                 params: {
                     q: searchKey,
-                    type: "track"
+                    type: "track",
+                    limit: 30
                 }
             })
             console.log(res);
@@ -45,11 +46,11 @@ export default function CollectTracks(props) {
 
     const renderTracks = () => {
         return tracks.map(track => (
-            <div className="track-item" key={track.uri}>
+            <div className="track-item" key={track.id}>
                 <span className="track-name">{track.name}</span>
                 <span className="track-artists">{track.artists.map(artist => artist.name).join(', ')}</span>
-                <button onClick={() => handleTrackSelection(track.uri)} className="add-btn">
-                    {selectedTracks.includes(track.uri) ? "Remove" : "Add"}
+                <button onClick={() => handleTrackSelection(track.id)} className="add-btn">
+                    {selectedTracks.includes(track.id) ? "Remove" : "Add"}
                 </button>
             </div>
         ));

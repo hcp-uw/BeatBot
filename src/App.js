@@ -36,14 +36,15 @@ function App() {
     window.localStorage.removeItem("token");
   }
 
-  const handleTrackSelection = (trackURI) => {
+  const handleTrackSelection = (trackId) => {
     setSelectedTracks(prev => {
-        if (prev.includes(trackURI)) {
-            return prev.filter(uri => uri !== trackURI);
+        if (prev.includes(trackId)) {
+            return prev.filter(id => id !== trackId);
         } else {
-            return [...prev, trackURI];
+            return [...prev, trackId];
         }
     });
+    console.log(selectedTracks)
 };
 
   return (
