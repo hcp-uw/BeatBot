@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from 'axios';
-
+import NextButton from "./NextButton.js";
 
 export default function CollectTracks(props) {
-    const { handleTrackSelection, selectedTracks, token } = props;
+    const { handleTrackSelection, selectedTracks, token, handleGoNext } = props;
     const [searchKey, setSearchKey] = useState("");
     const [tracks, setTracks] = useState([]);
     const [error, setError] = useState(null);
@@ -63,6 +63,7 @@ export default function CollectTracks(props) {
                     Error: {error}
                 </div>
             )}
+            <span><NextButton handleGoNext={handleGoNext} /></span>
             {token && (
                 <form onSubmit={searchTracks}>
                     <input type="text" onChange={event => setSearchKey(event.target.value)} />

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from 'axios';
-
+import BackButton from "./BackButton.js";
+import NextButton from "./NextButton.js";
 
 export default function CollectArtists(props) {
-    const { handleArtistSelection, selectedArtists, token } = props;
+    const { handleArtistSelection, selectedArtists, token, handleGoBack, handleGoNext } = props;
     const [searchKey, setSearchKey] = useState("");
     const [artists, setArtists] = useState([]);
     const [error, setError] = useState(null);
@@ -58,7 +59,7 @@ export default function CollectArtists(props) {
             </div>
         ));
     };
-    
+
 
     return (
         <div>
@@ -67,6 +68,8 @@ export default function CollectArtists(props) {
                     Error: {error}
                 </div>
             )}
+            <span><BackButton handleGoBack={handleGoBack} /></span>
+            <span><NextButton handleGoNext={handleGoNext} /></span>
             {token && (
                 <form onSubmit={searchArtists}>
                     <input type="text" onChange={event => setSearchKey(event.target.value)} />
