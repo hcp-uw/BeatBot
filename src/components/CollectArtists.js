@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import BackButton from "./BackButton.js";
 import NextButton from "./NextButton.js";
 
-export default function CollectTracks(props) {
-    const { handleTrackSelection, selectedTracks, token, handleGoNext } = props;
+export default function CollectArtists(props) {
+    const { handleArtistSelection, selectedArtists, token, handleGoBack, handleGoNext } = props;
     const [searchKey, setSearchKey] = useState("");
-    const [tracks, setTracks] = useState([]);
+    const [artists, setArtists] = useState([]);
     const [error, setError] = useState(null);
 
-    const searchTracks = async (event) => {
+    const searchArtists = async (event) => {
         event.preventDefault();
         try {
             const res = await axios.get("https://api.spotify.com/v1/search", {
@@ -17,12 +18,12 @@ export default function CollectTracks(props) {
                 },
                 params: {
                     q: searchKey,
-                    type: "track",
+                    type: "artist",
                     limit: 30
                 }
             })
             console.log(res);
-            setTracks(res.data.tracks.items);
+            setArtists(res.data.artists.items);
             setError(null);
         } catch (error) {
             if (error.response) {
@@ -43,18 +44,22 @@ export default function CollectTracks(props) {
             }
         }
     }
-
-    const renderTracks = () => {
-        return tracks.map(track => (
-            <div className="item" key={track.id}>
-                <span className="item-name">{track.name}</span>
-                <span className="track-artists">{track.artists.map(artist => artist.name).join(', ')}</span>
-                <button onClick={() => handleTrackSelection(track.id)} className="add-btn">
-                    {selectedTracks.includes(track.id) ? "Remove" : "Add"}
+    const renderArtists = () => {
+        return artists.map(artist => (
+            <div className="item" key={artist.id}>
+                {artist.images.length ? (
+                    <img className="artist-image" src={artist.images[0].url} alt={`${artist.name}`} />
+                ) : (
+                    <span>No Image</span>
+                )}
+                <span className="item-name">{artist.name}</span>
+                <button onClick={() => handleArtistSelection(artist.id)} className="add-btn">
+                    {selectedArtists.includes(artist.id) ? "Remove" : "Add"}
                 </button>
             </div>
         ));
     };
+
 
     return (
         <div>
@@ -63,15 +68,16 @@ export default function CollectTracks(props) {
                     Error: {error}
                 </div>
             )}
+            <span><BackButton handleGoBack={handleGoBack} /></span>
             <span><NextButton handleGoNext={handleGoNext} /></span>
             {token && (
-                <form onSubmit={searchTracks}>
+                <form onSubmit={searchArtists}>
                     <input type="text" onChange={event => setSearchKey(event.target.value)} />
                     <button type={"submit"}>Search</button>
                 </form>
             )}
 
-            {renderTracks()}
+            {renderArtists()}
         </div>
     )
 }
