@@ -22,6 +22,7 @@ function App() {
     if (code) {
       getToken(code);
     }
+    console.log('hello')
   }, []);
 
   async function redirectToSpotifyAuthorize() {
@@ -75,11 +76,6 @@ function App() {
 
     try {
       const response = await fetch(url, payload);
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Error fetching access token:', errorData);
-        return;
-      }
       const data = await response.json();
 
       if (data.access_token) {
