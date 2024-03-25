@@ -21,8 +21,12 @@ function App() {
     // if there is a code, call getToken
     if (code) {
       getToken(code);
+      const url = new URL(window.location.href);
+      url.searchParams.delete("code");
+    
+      const updatedUrl = url.search ? url.href : url.href.replace('?', '');
+      window.history.replaceState({}, document.title, updatedUrl);
     }
-    console.log('hello')
   }, []);
 
   async function redirectToSpotifyAuthorize() {
