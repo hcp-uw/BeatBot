@@ -29,7 +29,7 @@ function App() {
     }
   }, []);
 
-  async function redirectToSpotifyAuthorize() {
+  const redirectToSpotifyAuthorize = async () => {
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const randomValues = crypto.getRandomValues(new Uint8Array(64));
     const randomString = randomValues.reduce((acc, x) => acc + possible[x % possible.length], "");
@@ -58,7 +58,7 @@ function App() {
     window.location.href = authUrl.toString(); // redirect the user to the authorization server for login
   }
 
-  const getToken = async code => {
+  const getToken = async (code) => {
     // url for requesting an access token from Spotify
     const url = "https://accounts.spotify.com/api/token";
 
@@ -97,9 +97,7 @@ function App() {
       console.log(error.response.headers);
       console.error('Error fetching access token:', error);
     }
-  };
-
-
+  }
 
   const getRefreshToken = async () => {
     // refresh token that has been previously stored
@@ -124,16 +122,16 @@ function App() {
     localStorage.setItem('refresh_token', response.refreshToken);
   }
 
-  async function loginWithSpotifyClick() {
+  const loginWithSpotifyClick = async () => {
     await redirectToSpotifyAuthorize();
   }
 
-  async function logoutClick() {
+  const logoutClick = async () => {
     localStorage.clear();
     window.location.href = redirectUri;
   }
 
-  async function refreshTokenClick() {
+  const refreshTokenClick = async () => {
     const token = await getRefreshToken();
     setToken(token);
   }
@@ -143,10 +141,15 @@ function App() {
       if (prev.includes(trackId)) {
         return prev.filter(id => id !== trackId);
       } else {
-        return [...prev, trackId];
+        if (selectedArtists.length + prev.length < 5) {
+          return [...prev, trackId];
+        } else {
+          alert('You may not select more than 5 seeds.');
+          return prev;
+        }
       }
     });
-    console.log(selectedTracks)
+    console.log(selectedTracks);
   };
 
   const handleArtistSelection = (artistId) => {
@@ -154,10 +157,15 @@ function App() {
       if (prev.includes(artistId)) {
         return prev.filter(id => id !== artistId);
       } else {
-        return [...prev, artistId];
+        if (selectedTracks.length + prev.length < 5) {
+          return [...prev, artistId];
+        } else {
+          alert('You may not select more than 5 seeds.');
+          return prev;
+        }
       }
     });
-    console.log(selectedArtists)
+    console.log(selectedArtists);
   };
 
   const handleGoBack = () => {
