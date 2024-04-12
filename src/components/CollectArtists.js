@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from 'axios';
 import BackButton from "./BackButton.js";
 import NextButton from "./NextButton.js";
+import { searchArtists } from "../utils/spotifyApi.js";
 
 export default function CollectArtists(props) {
     const { handleArtistSelection, selectedArtists, token, handleGoBack, handleGoNext } = props;
@@ -9,41 +9,26 @@ export default function CollectArtists(props) {
     const [artists, setArtists] = useState([]);
     const [error, setError] = useState(null);
 
-    const searchArtists = async (event) => {
+    const handleSearch = async (event) => {
         event.preventDefault();
-        try {
-            const res = await axios.get("https://api.spotify.com/v1/search", {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                params: {
-                    q: searchKey,
-                    type: "artist",
-                    limit: 30
-                }
-            })
-            console.log(res);
-            setArtists(res.data.artists.items);
-            setError(null);
-        } catch (error) {
-            if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-
-                if (error.response.status === 401) {
-                    console.error("Error: Unauthorized. Please re-authenticate.");
-                    setError("Error: Unauthorized. Please re-authenticate.");
-                } else if (error.response.status === 429) {
-                    console.error("Error: Too many requests. Please try again later.");
-                    setError("Error: Too many requests. Please try again later.");
-                } else {
-                    console.error("An error occurred, please try again.");
-                    setError("An error occurred, please try again.");
-                }
+        const { data, error } = await searchArtists(token, searchKey);
+        if (data) {
+            setArtists(data);
+        }
+        if (error) {
+            if (error.response.status === 401) {
+                console.error("Error: Unauthorized. Please re-authenticate.");
+                setError("Error: Unauthorized. Please re-authenticate.");
+            } else if (error.response.status === 429) {
+                console.error("Error: Too many requests. Please try again later.");
+                setError("Error: Too many requests. Please try again later.");
+            } else {
+                console.error("An error occurred, please try again.");
+                setError("An error occurred, please try again.");
             }
         }
-    }
+    };
+
     const renderArtists = () => {
         return artists.map(artist => (
             <div className="item" key={artist.id}>
@@ -71,7 +56,7 @@ export default function CollectArtists(props) {
             <span><BackButton handleGoBack={handleGoBack} /></span>
             <span><NextButton handleGoNext={handleGoNext} /></span>
             {token && (
-                <form onSubmit={searchArtists}>
+                <form onSubmit={handleSearch}>
                     <input type="text" onChange={event => setSearchKey(event.target.value)} />
                     <button type={"submit"}>Search</button>
                 </form>
