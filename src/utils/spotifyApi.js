@@ -62,10 +62,10 @@ export const createPlaylist = async (token) => {
 
 };
 
-export const addTracks = async (token, playlistId, recommendations) => {
+export const addTracks = async (token, playlistId, additions) => {
     try {
         await axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-            uris: recommendations
+            uris: additions
         }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -140,21 +140,75 @@ const getCriteria = async (token, selectedArtists, selectedTracks) => {
     }
 }
 
+const rankRecommendations = async (token, recommendations) => {
+    try {
+        const { criteria, error: criteriaError } = await getCriteria(token, selectedArtists, selectedTracks);
+        if (criteriaError) {
+            throw criteriaError;
+        }
+
+        let scoredTracks = [];
+
+        for (let recommendation of recommendations) {
+            let score = 0;
+    
+            for (let artist of recommendation.artists) {
+                if (criteria.has(artist.id)) {
+                    score += criteria.get(artist.id);
+                }
+    
+                const artistRes = await axios.get(`https://api.spotify.com/v1/artists/${artist.id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const artistData = artistRes.data;
+    
+                for (let genre of artistData.genres) {
+                    if (criteria.has(genre)) {
+                        score += criteria.get(genre);
+                    }
+                }
+            }
+    
+            scoredTracks.push({ track: recommendation, score: score });
+        }
+    
+        scoredTracks.sort((a, b) => b.score - a.score);
+        return { additions: scoredTracks.slice(0, 30).map(item => item.track.uri), error: null };
+    } catch (error) {
+        return { additions: null, error: error }
+    }
+
+}
+
 export const getRecommendations = async (token, selectedArtists, selectedTracks) => {
     try {
-        const { criteria, error } = await getCriteria(token, selectedArtists, selectedTracks);
-        if (error) {
-            throw error;
+        const allSeeds = [...selectedArtists, ...selectedTracks];
+        const recommendations = new Set();
+        
+        const batchedSeeds = [];
+        while (allSeeds.length > 0) {
+            batchedSeeds.push(allSeeds.splice(0, 5)); // separate seeds into batches of 5 which is Spotify's max
         }
-        const res = await axios.get(`https://api.spotify.com/v1/recommendations?seed_artists=${selectedArtists}&seed_tracks=${selectedTracks}&limit=30`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        console.log(res.data.tracks)
-        const recommendationURIs = res.data.tracks.map(track => track.uri);
-        console.log(recommendationURIs)
-        return { recommendationURIs: recommendationURIs, error: null }
+
+        for (const batch of batchedSeeds) { // for each batch separate the songs and artists
+            const seedArtists = batch.filter(seed => selectedArtists.includes(seed)).join(',');
+            const seedTracks = batch.filter(seed => selectedTracks.includes(seed)).join(',');
+            const res = await axios.get(`https://api.spotify.com/v1/recommendations?seed_artists=${seedArtists}&seed_tracks=${seedTracks}&limit=30`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            res.data.tracks.forEach(track => recommendations.add(track));
+        }
+
+        let { additions, error: rankError } = await rankRecommendations(token, Array.from(recommendations));
+        if (rankError) {
+            throw rankError;
+        }
+        
+        return { recommendationURIs: additions, error: null };
     } catch (error) {
         return { recommendationURIs: null, error: error };
     }
