@@ -140,7 +140,7 @@ const getCriteria = async (token, selectedArtists, selectedTracks) => {
     }
 }
 
-const rankRecommendations = async (token, recommendations) => {
+const rankRecommendations = async (token, recommendations, selectedArtists, selectedTracks) => {
     try {
         const { criteria, error: criteriaError } = await getCriteria(token, selectedArtists, selectedTracks);
         if (criteriaError) {
@@ -203,7 +203,7 @@ export const getRecommendations = async (token, selectedArtists, selectedTracks)
             res.data.tracks.forEach(track => recommendations.add(track));
         }
 
-        let { additions, error: rankError } = await rankRecommendations(token, Array.from(recommendations));
+        let { additions, error: rankError } = await rankRecommendations(token, Array.from(recommendations), selectedArtists, selectedTracks);
         if (rankError) {
             throw rankError;
         }
