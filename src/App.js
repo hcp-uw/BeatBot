@@ -141,7 +141,7 @@ function App() {
       if (prev.includes(trackId)) {
         return prev.filter(id => id !== trackId);
       } else {
-        if (selectedArtists.length + prev.length < 5) {
+        if (selectedArtists.length + prev.length < 15) {
           return [...prev, trackId];
         } else {
           alert('You may not select more than 5 seeds.');
@@ -157,7 +157,7 @@ function App() {
       if (prev.includes(artistId)) {
         return prev.filter(id => id !== artistId);
       } else {
-        if (selectedTracks.length + prev.length < 5) {
+        if (selectedTracks.length + prev.length < 15) {
           return [...prev, artistId];
         } else {
           alert('You may not select more than 5 seeds.');
