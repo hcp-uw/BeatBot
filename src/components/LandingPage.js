@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 // import NextButton from "./NextButton";
-import { Mascot } from "./Mascot";
+import mascot from "../img/mascot.png";
+import SpotifyButton from "./SpotifyButton.js";
 
 export function LandingPage() {
-
+  const [screenNumber, setScreenNumber] = useState(0);
+  const handleGoNext = () => {
+    setScreenNumber(screenNumber + 1);
+  }
   return (
     <div className="landing-page">
       <section>
@@ -13,17 +17,21 @@ export function LandingPage() {
           <h1>BeatBot</h1>
         </div>
         <p>
-          Using AI to generate a playlist blah blah blahf aiofhjasdkl sjfskjf
-          sjdsk skl slkvnasknskl nsknlskn skndslkfnsdn sfn lskanfsakl ksn
-          lksanskld nsdl nsl’k ks’kl skjksnlksa nl’skl’n vnlksanvl; io’shn
-          lkvnkszn vlzx vnxsl;nvs/lkvnsbvl asoa’
+          Welcome to BeatBot, your go-to web application for creating personalized Spotify playlists!
+          Connect your Spotify account, input your preferences like mood, genres, and artists into our
+          intuitive interface, and let our OpenAI-powered system curate a unique playlist directly in
+          your library. Whether you need music for relaxation, exercise, or entertainment, BeatBot
+          makes sure your soundtrack matches every moment perfectly. Experience seamless, tailored
+          music creation with BeatBot.
         </p>
         <div className="button-div">
-          <button>Connect your Spotify</button>
+          {/* <button>Connect your Spotify</button> */}
+          {/* <NextButton handleGoNext={handleGoNext} /> */}
+          <SpotifyButton />
         </div>
       </section>
       <div className="mascot-logo">
-        <Mascot />
+        <img src={mascot} alt="beatbot mascot" />
       </div>
     </div>
   );
