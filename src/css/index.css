@@ -72,6 +72,12 @@ button {
   font-weight: 500;
 }
 
+button:hover {
+  box-shadow: none;
+  transform: translate(1px, 1px);
+  transition-duration: 100ms;
+}
+
 .button-div {
   padding-top: 20px;
   padding-left: 80px;
