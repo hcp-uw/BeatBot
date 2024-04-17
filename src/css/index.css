@@ -1,0 +1,111 @@
+/* .App {
+  text-align: center;
+}
+
+.item-container {
+  margin-top: 20px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.item-name {
+  flex-grow: 0.5;
+}
+
+.track-artists {
+  margin-left: 20px;
+  flex-grow: 2;
+}
+
+.artist-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.add-btn {
+  margin-left: auto;
+  padding: 5px 10px;
+} */
+
+body {
+  background-color: #D2DBBA;
+}
+
+section {
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 600px;
+  padding-left: 10%;
+  position: relative;
+  top: 150px;
+}
+
+.landing-page {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title-name {
+  font-size: 60px;
+}
+
+.title-name h1 {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #9DA17F;
+  font-family: "Inter", sans-serif;
+  font-weight: 850;
+}
+
+.title-name h1:not(:first-child){
+  float: left;
+  /* display: inline; */
+  margin-top: 0;
+}
+
+.title-name h1:nth-child(3){
+  color: #262B27;
+  /* float: left; */
+  padding-left: 3%;
+}
+
+.mascot-logo {
+  /* background-color: yellow; */
+  width: 40%;
+  position: relative;
+  top: 150px;
+}
+
+p {
+  color: #405A3F;
+  width: 30rem;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+button {
+  width: 230px;
+  height: 40px;
+  background-color: #E9E9E9;
+  color: #4F5E50;
+  border-radius: 17px;
+  box-shadow: 1.5px 1.5px 0px 1.5px rgba(147, 135, 135, .7);
+  border: #c1b0b0;
+}
+
+.button-div {
+  padding-top: 20px;
+  padding-left: 80px;
+}
+
