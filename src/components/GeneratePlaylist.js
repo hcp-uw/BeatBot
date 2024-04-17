@@ -18,20 +18,25 @@ export default function GeneratePlaylist(props) {
                 throw createError;
             }
 
-            const { error } = await addTracks(token, playlistId, recommendationURIs);
-            if (error) {
-                throw error;
+            const { error: addError } = await addTracks(token, playlistId, recommendationURIs);
+            if (addError) {
+                throw addError;
             }
         } catch (error) {
-            if (error.response.status === 401) {
-                console.error("Error: Unauthorized. Please re-authenticate.");
-                setError("Error: Unauthorized. Please re-authenticate.");
-            } else if (error.response.status === 429) {
-                console.error("Error: Too many requests. Please try again later.");
-                setError("Error: Too many requests. Please try again later.");
+            console.error("Error generating playlist:", error);
+            if (error.response && error.response.status) {
+                if (error.response.status === 401) {
+                    console.error("Error: Unauthorized. Please re-authenticate.");
+                    setError("Error: Unauthorized. Please re-authenticate.");
+                } else if (error.response.status === 429) {
+                    console.error("Error: Too many requests. Please try again later.");
+                    setError("Error: Too many requests. Please try again later.");
+                } else {
+                    console.error("An error occurred, please try again.");
+                    setError("An error occurred, please try again.");
+                }
             } else {
-                console.error("An error occurred, please try again.");
-                setError("An error occurred, please try again.");
+                setError(error.message || "An unknown error occurred.");
             }
         }
     }
