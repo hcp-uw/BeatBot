@@ -84,15 +84,18 @@ const getCriteria = async (token, selectedArtists, selectedTracks) => {
         // fetch desireable features from the seeds
         let criteria = new Map();
 
-        for (let artist of selectedArtists) {
-            const artistRes = await axios.get(`https://api.spotify.com/v1/artists/${artist}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const artistData = artistRes.data;
+        const artistIds = selectedArtists.join(',');
 
-            criteria.set(artist, 1);
+        const response = await axios.get(`https://api.spotify.com/v1/artists?ids=${ids}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const artistsData = response.data.artists;
+
+        for (let artistData of artistsData) {
+            criteria.set(artistData.id, 1);
 
             for (let genre of artistData.genres) {
                 if (criteria.has(genre)) {
@@ -103,15 +106,18 @@ const getCriteria = async (token, selectedArtists, selectedTracks) => {
             }
         }
 
-        for (let track of selectedTracks) {
-            const trackRes = await axios.get(`https://api.spotify.com/v1/tracks/${track}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const trackData = trackRes.data;
+        const trackIds = selectedTracks.join(',');
 
-            for (let artist of trackData.artists) {
+        const tracksRes = await axios.get(`https://api.spotify.com/v1/tracks?ids=${trackIds}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const tracksData = tracksRes.data.tracks;
+
+        for (let track of tracksData) {
+            for (let artist of track.artists) {
                 if (criteria.has(artist.id)) {
                     criteria.set(artist.id, criteria.get(artist.id) + 1);
                 } else {
@@ -134,7 +140,8 @@ const getCriteria = async (token, selectedArtists, selectedTracks) => {
                 }
             }
         }
-        return { criteria: criteria, error: null};
+
+        return { criteria: criteria, error: null };
     } catch (error) {
         return { criteria: null, error: error };
     }
@@ -151,29 +158,29 @@ const rankRecommendations = async (token, recommendations, selectedArtists, sele
 
         for (let recommendation of recommendations) {
             let score = 0;
-    
+
             for (let artist of recommendation.artists) {
                 if (criteria.has(artist.id)) {
                     score += criteria.get(artist.id);
                 }
-    
+
                 const artistRes = await axios.get(`https://api.spotify.com/v1/artists/${artist.id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 });
                 const artistData = artistRes.data;
-    
+
                 for (let genre of artistData.genres) {
                     if (criteria.has(genre)) {
                         score += criteria.get(genre);
                     }
                 }
             }
-    
+
             scoredTracks.push({ track: recommendation, score: score });
         }
-    
+
         scoredTracks.sort((a, b) => b.score - a.score);
         return { additions: scoredTracks.slice(0, 30).map(item => item.track.uri), error: null };
     } catch (error) {
@@ -186,7 +193,7 @@ export const getRecommendations = async (token, selectedArtists, selectedTracks)
     try {
         const allSeeds = [...selectedArtists, ...selectedTracks];
         const recommendations = new Set();
-        
+
         const batchedSeeds = [];
         while (allSeeds.length > 0) {
             batchedSeeds.push(allSeeds.splice(0, 5)); // separate seeds into batches of 5 which is Spotify's max
@@ -207,7 +214,7 @@ export const getRecommendations = async (token, selectedArtists, selectedTracks)
         if (rankError) {
             throw rankError;
         }
-        
+
         return { recommendationURIs: additions, error: null };
     } catch (error) {
         return { recommendationURIs: null, error: error };
