@@ -86,7 +86,7 @@ const getCriteria = async (token, selectedArtists, selectedTracks) => {
 
         const artistIds = selectedArtists.join(',');
 
-        const response = await axios.get(`https://api.spotify.com/v1/artists?ids=${ids}`, {
+        const response = await axios.get(`https://api.spotify.com/v1/artists?ids=${artistIds}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
