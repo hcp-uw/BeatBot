@@ -86,3 +86,16 @@ button:hover {
 img {
   width: 680px;
 }
+
+#prompt-search-input {
+  width: 230px;
+  height: 40px;
+  background-color: #E9E9E9;
+  color: #4F5E50;
+  border-radius: 17px;
+  box-shadow: 1.5px 2px 0px 1.5px rgba(147, 135, 135, .7);
+  border: #c1b0b0;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+}

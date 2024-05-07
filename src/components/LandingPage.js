@@ -12,9 +12,7 @@ export function LandingPage() {
     <div className="landing-page">
       <section>
         <div className="title-name">
-          <h1>Welcome</h1>
-          <h1>to</h1>
-          <h1>BeatBot</h1>
+          <h1>Welcome to <span style={{color:"black"}}>BeatBot</span></h1>
         </div>
         <p>
           Welcome to BeatBot, your go-to web application for creating personalized Spotify playlists!

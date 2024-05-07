@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './css/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
 // test
-import { LandingPage } from './components/LandingPage';
+
+import RouteLinks from './components/RoutesLink';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   //<React.StrictMode>
-    // <App />
-    <LandingPage />
+    <RouteLinks/>
+    
   //</React.StrictMode>
 );
 
