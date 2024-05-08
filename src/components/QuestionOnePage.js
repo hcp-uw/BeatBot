@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import NextButton from "./NextButton";
-import mascot from "../img/mascot.png";
+import mascot from "../img/mascot2.png";
 import PromptSearch from "./PromptSearch.js";
 
 export function QuestionOnePage() {
@@ -10,21 +10,23 @@ export function QuestionOnePage() {
 //   }
 
 return (
-
-    <div className="landing-page">
-      <section>
-        <div className="title-name">
-          <h1>What kind of <span style={{color:"black"}}>m  ood</span> are you in?</h1>
-        </div>
-        <p>
-          This will give me an idea what playlist to make
-        </p>
-        <div className="button-div">
-        <PromptSearch/>
-        </div>
-      </section>
+  <div style={{backgroundColor:'#DEE0ED', height:'860px'}} >
+      <div className="landing-page" >
       <div className="mascot-logo">
-        <img src={mascot} alt="beatbot mascot" />
+          <img src={mascot} alt="beatbot mascot" />
+        </div>
+        <section>
+          <div className="title-name">
+            <h1 style={{color: "#756D7D"}}>What kind of <span style={{color:"#9E8DCE"}}>songs</span> do you want?</h1>
+          </div>
+          <p style={{color:'gre'}}>
+            This will give me an idea what playlist to make
+          </p>
+          <PromptSearch/>
+          <div>
+          </div>
+        </section>
+        
       </div>
     </div>
     );

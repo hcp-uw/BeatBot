@@ -2,6 +2,8 @@ import React, { useState } from "react";
 // import NextButton from "./NextButton";
 import mascot from "../img/mascot.png";
 import SpotifyButton from "./SpotifyButton.js";
+// import './css/index.css';
+
 
 export function LandingPage() {
   const [screenNumber, setScreenNumber] = useState(0);
