@@ -133,10 +133,10 @@ export default function SpotifyButton(props) {
   return(
     <>
       {!token ?
-          <button onClick={loginWithSpotifyClick}>Login to Spotify</button>
+          <button className="front-page-but" onClick={loginWithSpotifyClick}>Login to Spotify</button>
           : <span>
-            <button onClick={logoutClick}>Logout</button>
-            <button onClick={refreshTokenClick}>Refresh Token</button>
+            <button className="front-page-but" onClick={logoutClick}>Logout</button>
+            <button className="front-page-but" onClick={refreshTokenClick}>Refresh Token</button>
           </span>
         }
     </>

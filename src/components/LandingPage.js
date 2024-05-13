@@ -10,9 +10,10 @@ export function LandingPage() {
   const handleGoNext = () => {
     setScreenNumber(screenNumber + 1);
   }
+  document.body.style.backgroundColor = "#D2DBBA";
   return (
     <div className="landing-page">
-      <section>
+      <section className="section-landing-page">
         <div className="title-name">
           <h1>Welcome to <span style={{color:"black"}}>BeatBot</span></h1>
         </div>
@@ -31,7 +32,7 @@ export function LandingPage() {
         </div>
       </section>
       <div className="mascot-logo">
-        <img src={mascot} alt="beatbot mascot" />
+        <img className="mascot1" src={mascot} alt="beatbot mascot" />
       </div>
     </div>
   );

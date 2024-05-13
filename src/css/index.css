@@ -1,9 +1,9 @@
 body {
-  background-color: #D2DBBA;
+  /* background-color: #D2DBBA; */
   margin: 0;
 }
 
-section {
+.section-landing-page {
   /* background-color: red; */
   display: flex;
   flex-direction: column;
@@ -52,7 +52,7 @@ section {
   padding-right: 200px;
 }
 
-p {
+.section-landing-page p {
   color: #405A3F;
   width: 30rem;
   font-family: "Inter", sans-serif;
@@ -60,7 +60,7 @@ p {
   font-weight: 300;
 }
 
-button {
+.front-page-but {
   width: 230px;
   height: 40px;
   background-color: #E9E9E9;
@@ -73,7 +73,7 @@ button {
   font-weight: 500;
 }
 
-button:hover {
+.front-page-but:hover {
   box-shadow: none;
   transform: translate(1px, 1px);
   transition-duration: 100ms;
@@ -84,7 +84,7 @@ button:hover {
   padding-left: 80px;
 }
 
-img {
+.mascot1 {
   width: 680px;
 }
 

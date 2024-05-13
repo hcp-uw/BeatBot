@@ -8,9 +8,9 @@ export function QuestionOnePage() {
 //   const handleGoNext = () => {
 //     setScreenNumber(screenNumber + 1);
 //   }
-
+document.body.style.backgroundColor = "#DEE0ED";
 return (
-  <div style={{backgroundColor:'#DEE0ED', height:'860px'}} >
+  <div style={{height:'860px'}} >
       <div className="landing-page" >
       <div className="mascot-logo">
           <img src={mascot} alt="beatbot mascot" />
@@ -26,7 +26,7 @@ return (
           <div>
           </div>
         </section>
-        
+
       </div>
     </div>
     );
