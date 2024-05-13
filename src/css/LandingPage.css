@@ -1,0 +1,29 @@
+.landingPageBody {
+    background-color: aquamarine;
+    height: 100vh;
+    width: 100vw;
+}
+
+#lp-welcome {
+    margin: 0%;
+}
+
+.lp-head-divider {
+    background-color: blue;
+    display: flex;
+    flex-direction: row;
+}
+
+.lp-mascot {
+    height: 35em;
+    background-color: blueviolet;
+}
+
+.lp-welcome-divider {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 100px;
+}
+

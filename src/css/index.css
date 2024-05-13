@@ -1,10 +1,10 @@
 body {
-  background-color: #D2DBBA;
   margin: 0;
-}
+  padding: 0;
 
+}
+/*
 section {
-  /* background-color: red; */
   display: flex;
   flex-direction: column;
   width: 40%;
@@ -33,18 +33,15 @@ section {
 
 .title-name h1:not(:first-child){
   float: left;
-  /* display: inline; */
   margin-top: 0;
 }
 
 .title-name h1:nth-child(3){
   color: #262B27;
-  /* float: left; */
   padding-left: 3%;
 }
 
 .mascot-logo {
-  /* background-color: yellow; */
   width: 40%;
   position: relative;
   top: 10.5rem;
@@ -99,4 +96,4 @@ img {
   font-family: "Inter", sans-serif;
   font-size: 15px;
   font-weight: 500;
-}
+} */

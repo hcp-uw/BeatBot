@@ -10,24 +10,30 @@ export function QuestionOnePage() {
 //   }
 
 return (
-  <div style={{backgroundColor:'#DEE0ED', height:'860px'}} >
+  <div style={{backgroundColor:'#DEE0ED', height:'1000px'}} >
       <div className="landing-page" >
-      <div className="mascot-logo">
-          <img src={mascot} alt="beatbot mascot" />
-        </div>
+      
         <section>
           <div className="title-name">
             <h1 style={{color: "#756D7D"}}>What kind of <span style={{color:"#9E8DCE"}}>songs</span> do you want?</h1>
           </div>
-          <p style={{color:'gre'}}>
+          <p style={{color:'grey'}}>
             This will give me an idea what playlist to make
           </p>
           <PromptSearch/>
           <div>
           </div>
         </section>
-        
+        <div className="mascot-logo">
+          <img src={mascot} alt="beatbot mascot" />
+        </div>
       </div>
     </div>
     );
 }
+
+///artist page
+///landing page for finishing playlist  
+
+//redo songs
+///make css page
