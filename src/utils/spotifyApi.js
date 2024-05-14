@@ -64,6 +64,9 @@ export const createPlaylist = async (token) => {
 
 export const addTracks = async (token, playlistId, additions) => {
     try {
+        console.log(token)
+        console.log(playlistId)
+        console.log(additions)
         await axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
             uris: additions
         }, {
@@ -79,115 +82,115 @@ export const addTracks = async (token, playlistId, additions) => {
     }
 }
 
-const getCriteria = async (token, selectedArtists, selectedTracks) => {
-    try {
-        // fetch desireable features from the seeds
-        let criteria = new Map();
+// const getCriteria = async (token, selectedArtists, selectedTracks) => {
+//     try {
+//         // fetch desireable features from the seeds
+//         let criteria = new Map();
 
-        const artistIds = selectedArtists.join(',');
+//         const artistIds = selectedArtists.join(',');
 
-        const response = await axios.get(`https://api.spotify.com/v1/artists?ids=${artistIds}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+//         const response = await axios.get(`https://api.spotify.com/v1/artists?ids=${artistIds}`, {
+//             headers: {
+//                 'Authorization': `Bearer ${token}`
+//             }
+//         });
 
-        const artistsData = response.data.artists;
+//         const artistsData = response.data.artists;
 
-        for (let artistData of artistsData) {
-            criteria.set(artistData.id, 1);
+//         for (let artistData of artistsData) {
+//             criteria.set(artistData.id, 1);
 
-            for (let genre of artistData.genres) {
-                if (criteria.has(genre)) {
-                    criteria.set(genre, criteria.get(genre) + 1);
-                } else {
-                    criteria.set(genre, 1);
-                }
-            }
-        }
+//             for (let genre of artistData.genres) {
+//                 if (criteria.has(genre)) {
+//                     criteria.set(genre, criteria.get(genre) + 1);
+//                 } else {
+//                     criteria.set(genre, 1);
+//                 }
+//             }
+//         }
 
-        const trackIds = selectedTracks.join(',');
+//         const trackIds = selectedTracks.join(',');
 
-        const tracksRes = await axios.get(`https://api.spotify.com/v1/tracks?ids=${trackIds}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+//         const tracksRes = await axios.get(`https://api.spotify.com/v1/tracks?ids=${trackIds}`, {
+//             headers: {
+//                 'Authorization': `Bearer ${token}`
+//             }
+//         });
 
-        const tracksData = tracksRes.data.tracks;
+//         const tracksData = tracksRes.data.tracks;
 
-        for (let track of tracksData) {
-            for (let artist of track.artists) {
-                if (criteria.has(artist.id)) {
-                    criteria.set(artist.id, criteria.get(artist.id) + 1);
-                } else {
-                    criteria.set(artist.id, 1);
-                }
+//         for (let track of tracksData) {
+//             for (let artist of track.artists) {
+//                 if (criteria.has(artist.id)) {
+//                     criteria.set(artist.id, criteria.get(artist.id) + 1);
+//                 } else {
+//                     criteria.set(artist.id, 1);
+//                 }
 
-                const artistRes = await axios.get(`https://api.spotify.com/v1/artists/${artist.id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const artistData = artistRes.data;
+//                 const artistRes = await axios.get(`https://api.spotify.com/v1/artists/${artist.id}`, {
+//                     headers: {
+//                         'Authorization': `Bearer ${token}`
+//                     }
+//                 });
+//                 const artistData = artistRes.data;
 
-                for (let genre of artistData.genres) {
-                    if (criteria.has(genre)) {
-                        criteria.set(genre, criteria.get(genre) + 1);
-                    } else {
-                        criteria.set(genre, 1);
-                    }
-                }
-            }
-        }
+//                 for (let genre of artistData.genres) {
+//                     if (criteria.has(genre)) {
+//                         criteria.set(genre, criteria.get(genre) + 1);
+//                     } else {
+//                         criteria.set(genre, 1);
+//                     }
+//                 }
+//             }
+//         }
 
-        return { criteria: criteria, error: null };
-    } catch (error) {
-        return { criteria: null, error: error };
-    }
-}
+//         return { criteria: criteria, error: null };
+//     } catch (error) {
+//         return { criteria: null, error: error };
+//     }
+// }
 
-const rankRecommendations = async (token, recommendations, selectedArtists, selectedTracks) => {
-    try {
-        const { criteria, error: criteriaError } = await getCriteria(token, selectedArtists, selectedTracks);
-        if (criteriaError) {
-            throw criteriaError;
-        }
+// const rankRecommendations = async (token, recommendations, selectedArtists, selectedTracks) => {
+//     try {
+//         const { criteria, error: criteriaError } = await getCriteria(token, selectedArtists, selectedTracks);
+//         if (criteriaError) {
+//             throw criteriaError;
+//         }
 
-        let scoredTracks = [];
+//         let scoredTracks = [];
 
-        for (let recommendation of recommendations) {
-            let score = 0;
+//         for (let recommendation of recommendations) {
+//             let score = 0;
 
-            for (let artist of recommendation.artists) {
-                if (criteria.has(artist.id)) {
-                    score += criteria.get(artist.id);
-                }
+//             for (let artist of recommendation.artists) {
+//                 if (criteria.has(artist.id)) {
+//                     score += criteria.get(artist.id);
+//                 }
 
-                const artistRes = await axios.get(`https://api.spotify.com/v1/artists/${artist.id}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const artistData = artistRes.data;
+//                 const artistRes = await axios.get(`https://api.spotify.com/v1/artists/${artist.id}`, {
+//                     headers: {
+//                         'Authorization': `Bearer ${token}`
+//                     }
+//                 });
+//                 const artistData = artistRes.data;
 
-                for (let genre of artistData.genres) {
-                    if (criteria.has(genre)) {
-                        score += criteria.get(genre);
-                    }
-                }
-            }
+//                 for (let genre of artistData.genres) {
+//                     if (criteria.has(genre)) {
+//                         score += criteria.get(genre);
+//                     }
+//                 }
+//             }
 
-            scoredTracks.push({ track: recommendation, score: score });
-        }
+//             scoredTracks.push({ track: recommendation, score: score });
+//         }
 
-        scoredTracks.sort((a, b) => b.score - a.score);
-        return { additions: scoredTracks.slice(0, 30).map(item => item.track.uri), error: null };
-    } catch (error) {
-        return { additions: null, error: error }
-    }
+//         scoredTracks.sort((a, b) => b.score - a.score);
+//         return { additions: scoredTracks.slice(0, 30).map(item => item.track.uri), error: null };
+//     } catch (error) {
+//         return { additions: null, error: error }
+//     }
 
-}
+// }
 
 export const getRecommendations = async (token, selectedArtists, selectedTracks) => {
     try {
@@ -202,18 +205,23 @@ export const getRecommendations = async (token, selectedArtists, selectedTracks)
         for (const batch of batchedSeeds) { // for each batch separate the songs and artists
             const seedArtists = batch.filter(seed => selectedArtists.includes(seed)).join(',');
             const seedTracks = batch.filter(seed => selectedTracks.includes(seed)).join(',');
-            const res = await axios.get(`https://api.spotify.com/v1/recommendations?seed_artists=${seedArtists}&seed_tracks=${seedTracks}&limit=30`, {
+            console.log(seedArtists)
+            console.log(seedTracks)
+            const res = await axios.get(`https://api.spotify.com/v1/recommendations?seed_artists=${seedArtists}&seed_tracks=${seedTracks}&limit=20`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            res.data.tracks.forEach(track => recommendations.add(track));
+            console.log(res)
+            res.data.tracks.forEach(track => recommendations.add(track.uri));
         }
 
-        let { additions, error: rankError } = await rankRecommendations(token, Array.from(recommendations), selectedArtists, selectedTracks);
-        if (rankError) {
-            throw rankError;
-        }
+        const additions = Array.from(recommendations).slice(0, 30);
+
+        // let { additions, error: rankError } = await rankRecommendations(token, Array.from(recommendations), selectedArtists, selectedTracks);
+        // if (rankError) {
+        //     throw rankError;
+        // }
 
         return { recommendationURIs: additions, error: null };
     } catch (error) {
