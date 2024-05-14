@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 
 
-export default function PromptSearch() {
+export default function PromptSearch(props) {
     const [page, setPage] = useState(0);
+    const classes = props.classes;
+    console.log(classes);
 
     if (page === 0) {
         return (
-            <div style={{display:"flex", flexDirection:"column", height:60, width:200}}>
-                <input type="text" style={{height:100,backgroundColor:'rgb(214, 183, 237',margin:0}}/>
-                <button onClick={() => setPage(1)}>Continue</button>
-
+            <div className="prompt-search">
+                <input className={classes[0]} type="text" placeholder="Enter your prompt here..."/>
+                <button className={classes[1]} onClick={() => setPage(1)}>Continue</button>
             </div>
         );
     }
@@ -28,15 +29,15 @@ export default function PromptSearch() {
                 </div>
 
             <div>
-                
-            <button onClick={() => setPage(0)}>back</button>
-            <button onClick={() => setPage(2)}>submit</button>
+
+            <button className="back-but" onClick={() => setPage(0)}>Back</button>
+            <button className="submit-but" onClick={() => setPage(2)}>Submit</button>
 
             </div>
 
             </div>
         );
-    } 
+    }
     else {
         return (
             <div>

@@ -10,24 +10,17 @@ export function QuestionOnePage() {
 //   }
 document.body.style.backgroundColor = "#DEE0ED";
 return (
-  <div style={{height:'860px'}} >
-      <div className="landing-page" >
-      <div className="mascot-logo">
-          <img src={mascot} alt="beatbot mascot" />
+    <div className="q1-page" >
+      <img className="mascot-logo2" src={mascot} alt="beatbot mascot" />
+      <section className="section-q1-page">
+        <div className class="q1-title">
+          <h1>Are there any <span style={{color:"#9E8DCE"}}>songs</span> you want to include?</h1>
         </div>
-        <section>
-          <div className="title-name">
-            <h1 style={{color: "#756D7D"}}>What kind of <span style={{color:"#9E8DCE"}}>songs</span> do you want?</h1>
-          </div>
-          <p style={{color:'gre'}}>
-            This will give me an idea what playlist to make
-          </p>
-          <PromptSearch/>
-          <div>
-          </div>
-        </section>
-
-      </div>
+        <p>
+          Some example songs would help a lot!
+        </p>
+        <PromptSearch classes={["q1-input", "q1-but"]} />
+      </section>
     </div>
     );
 }
