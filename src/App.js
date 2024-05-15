@@ -99,29 +99,6 @@ function App() {
     }
   }
 
-  const getRefreshToken = async () => {
-    // refresh token that has been previously stored
-    const refreshToken = localStorage.getItem('refresh_token');
-    const url = "https://accounts.spotify.com/api/token";
-
-    const payload = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({
-        grant_type: 'refresh_token',
-        refresh_token: refreshToken,
-        client_id: clientId
-      }),
-    }
-    const body = await fetch(url, payload);
-    const response = await body.json();
-
-    localStorage.setItem('access_token', response.accessToken);
-    localStorage.setItem('refresh_token', response.refreshToken);
-  }
-
   const loginWithSpotifyClick = async () => {
     await redirectToSpotifyAuthorize();
   }
@@ -131,17 +108,12 @@ function App() {
     window.location.href = redirectUri;
   }
 
-  const refreshTokenClick = async () => {
-    const token = await getRefreshToken();
-    setToken(token);
-  }
-
   const handleTrackSelection = (trackId) => {
     setSelectedTracks(prev => {
       if (prev.includes(trackId)) {
         return prev.filter(id => id !== trackId);
       } else {
-        if (selectedArtists.length + prev.length < 5) {
+        if (selectedArtists.length + prev.length < 15) {
           return [...prev, trackId];
         } else {
           alert('You may not select more than 5 seeds.');
@@ -157,7 +129,7 @@ function App() {
       if (prev.includes(artistId)) {
         return prev.filter(id => id !== artistId);
       } else {
-        if (selectedTracks.length + prev.length < 5) {
+        if (selectedTracks.length + prev.length < 15) {
           return [...prev, artistId];
         } else {
           alert('You may not select more than 5 seeds.');
@@ -183,7 +155,6 @@ function App() {
         <button onClick={loginWithSpotifyClick}>Login to Spotify</button>
         : <span>
           <button onClick={logoutClick}>Logout</button>
-          <button onClick={refreshTokenClick}>Refresh Token</button>
         </span>
       }
       {screenNumber === 0 && <CollectTracks token={token} handleTrackSelection={handleTrackSelection} selectedTracks={selectedTracks} handleGoNext={handleGoNext} />}
