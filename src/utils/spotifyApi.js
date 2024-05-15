@@ -27,7 +27,7 @@ export const searchTracks = async (token, searchKey) => {
             params: {
                 q: searchKey,
                 type: "track",
-                limit: 30
+                limit: 10
             }
         })
         return { data: res.data.tracks.items, error: null };
