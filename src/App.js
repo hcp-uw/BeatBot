@@ -3,6 +3,8 @@ import CollectTracks from "./components/CollectTracks.js";
 import CollectArtists from "./components/CollectArtists.js";
 import GeneratePlaylist from "./components/GeneratePlaylist.js";
 import { QuestionOnePage } from "./components/QuestionOnePage.js";
+import { QuestionTwoPage } from "./components/QuestionTwoPage.js";
+
 
 function App() {
   const clientId = '98b7d6d384cc4503a01bd5d9864b49b0';
@@ -162,7 +164,9 @@ function App() {
       {/* {screenNumber === 0 && <CollectTracks token={token} handleTrackSelection={handleTrackSelection} selectedTracks={selectedTracks} handleGoNext={handleGoNext} />}
       {screenNumber === 1 && <CollectArtists token={token} handleArtistSelection={handleArtistSelection} selectedArtists={selectedArtists} handleGoBack={handleGoBack} handleGoNext={handleGoNext} />}
       {screenNumber === 2 && <GeneratePlaylist token={token} selectedTracks={selectedTracks} selectedArtists={selectedArtists} handleGoBack={handleGoBack} />} */}
-      <QuestionOnePage token={token} handleTrackSelection={handleTrackSelection} selectedTracks={selectedTracks} handleGoNext={handleGoNext} />
+      {/* <QuestionOnePage token={token} handleTrackSelection={handleTrackSelection} selectedTracks={selectedTracks} handleGoNext={handleGoNext} /> */}
+      <QuestionTwoPage token={token} handleArtistSelection={handleArtistSelection} selectedArtists={selectedArtists} handleGoNext={handleGoNext} />
+
     </div>
   );
 }

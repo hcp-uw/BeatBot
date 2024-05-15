@@ -9,7 +9,7 @@ export const searchArtists = async (token, searchKey) => {
             params: {
                 q: searchKey,
                 type: "artist",
-                limit: 30
+                limit: 5
             }
         })
         return { data: res.data.artists.items, error: null };

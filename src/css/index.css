@@ -168,6 +168,11 @@ body {
   text-overflow: ellipsis;
 }
 
+.item-image {
+  max-width: 35px;
+  max-height: 35px;
+}
+
 .toggle-button button {
   justify-self: end;
   width: 100%;
@@ -243,7 +248,6 @@ body {
 } */
 
 .q2-input {
-  margin-top: 8%;
   margin-left: 15%;
   width: 300px;
   box-shadow: 1.5px 2px 0px 1.5px #826B50;

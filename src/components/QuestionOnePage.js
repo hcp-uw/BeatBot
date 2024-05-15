@@ -4,7 +4,7 @@ import mascot from "../img/mascot2.png";
 import { searchTracks } from "../utils/spotifyApi.js";
 
 export function QuestionOnePage(props) {
-  const { handleTrackSelection, selectedTracks, token, handleGoNext } = props;
+  const { handleTrackSelection, selectedTracks, token } = props;
   const [searchKey, setSearchKey] = useState("");
   const [tracks, setTracks] = useState([]);
   const [error, setError] = useState(null);
