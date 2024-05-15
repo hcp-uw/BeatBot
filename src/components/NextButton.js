@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function BackButton(props) {
+export default function NextButton(props) {
     const { handleGoNext } = props;
     return (
         <div>
