@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function SpotifyButton(props) {
   const clientId = '98b7d6d384cc4503a01bd5d9864b49b0';
@@ -7,6 +9,9 @@ export default function SpotifyButton(props) {
   const scope = 'user-read-private user-read-email playlist-modify-public';
 
   const [token, setToken] = useState("");
+  const navigate = useNavigate();
+
+  const handleTokenSet = props.handleTokenSet;
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -84,6 +89,7 @@ export default function SpotifyButton(props) {
         }
 
         setToken(data.access_token);
+        handleTokenSet(data.access_token);
       }
     } catch (error) {
       console.log(error.response.data);
@@ -93,52 +99,17 @@ export default function SpotifyButton(props) {
     }
   }
 
-  const getRefreshToken = async () => {
-    // refresh token that has been previously stored
-    const refreshToken = localStorage.getItem('refresh_token');
-    const url = "https://accounts.spotify.com/api/token";
-
-    const payload = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({
-        grant_type: 'refresh_token',
-        refresh_token: refreshToken,
-        client_id: clientId
-      }),
-    }
-    const body = await fetch(url, payload);
-    const response = await body.json();
-
-    localStorage.setItem('access_token', response.accessToken);
-    localStorage.setItem('refresh_token', response.refreshToken);
-  }
-
   const loginWithSpotifyClick = async () => {
     await redirectToSpotifyAuthorize();
   }
 
-  const logoutClick = async () => {
-    localStorage.clear();
-    window.location.href = redirectUri;
-  }
-
-  const refreshTokenClick = async () => {
-    const token = await getRefreshToken();
-    setToken(token);
-  }
-
   return(
-    <>
+    <div>
       {!token ?
           <button className="front-page-but" onClick={loginWithSpotifyClick}>Login to Spotify</button>
-          : <span>
-            <button className="front-page-but" onClick={logoutClick}>Logout</button>
-            <button className="front-page-but" onClick={refreshTokenClick}>Refresh Token</button>
-          </span>
+          :
+            <button className="front-page-but" onClick={() => navigate("/tracks")}>Create Playlist</button>
         }
-    </>
+    </div>
   );
 }

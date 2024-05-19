@@ -74,7 +74,7 @@ body {
 
 .front-page-but {
   width: 230px;
-  background-color: #E9E9E9;
+  background-color: white;
   font-family: "Inter", sans-serif;
   font-weight: 500;
   box-shadow: 1.5px 2px 0px 1.5px rgba(147, 135, 135, .7);
@@ -194,11 +194,11 @@ body {
 
 .q1-input {
   width: 300px;
-  box-shadow: 1.5px 2px 0px 1.5px #545082;
+  box-shadow: 1.5px 2px 0px 1.5px rgba(147, 135, 135, .7);
 }
 
 .q1-but, .back-but, .submit-but, .q2-but {
-  box-shadow: 1.5px 2px 0px 1px #A0A0A0;
+  box-shadow: 1.5px 2px 0px 1.5px rgba(147, 135, 135, .7);
   background-color: white;
   color: #A0A0A0;
   border: #E9E9E9;
@@ -250,7 +250,7 @@ body {
 .q2-input {
   margin-left: 15%;
   width: 300px;
-  box-shadow: 1.5px 2px 0px 1.5px #826B50;
+  box-shadow: 1.5px 2px 0px 1.5px rgba(147, 135, 135, .7);
 }
 
 .q2-but {

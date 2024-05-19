@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import NextButton from "./NextButton";
 import mascot from "../img/mascot3.png";
+import { useNavigate } from "react-router-dom";
 import { searchArtists } from "../utils/spotifyApi.js";
-//import PromptSearch from "./PromptSearch.js";
 
 export function QuestionTwoPage(props) {
-  const { handleArtistSelection, selectedArtists, token } = props;
+  const { handleArtistSelection, selectedArtists, selectedTracks, token } = props;
   const [searchKey, setSearchKey] = useState("");
   const [artists, setArtists] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSearch = async (event) => {
     event.preventDefault();
@@ -34,26 +34,35 @@ export function QuestionTwoPage(props) {
     return artists.map(artist => (
       <div className="container">
         <div className="item list-item" key={artist.id}>
-            {artist.images.length ? (
-                <img className="item-image" src={artist.images[0].url} alt={`${artist.name}`} />
-            ) : (
-                <span>No Image</span>
-            )}
-            <span className="item-name">{artist.name}</span>
-            <span className="toggle-button">
-              <button onClick={() => handleArtistSelection(artist.id)}>
-                {selectedArtists.includes(artist.id) ? "—" : "+"}
-              </button>
-            </span>
+          {artist.images.length ? (
+            <img className="item-image" src={artist.images[0].url} alt={`${artist.name}`} />
+          ) : (
+            <span>No Image</span>
+          )}
+          <span className="item-name">{artist.name}</span>
+          <span className="toggle-button">
+            <button onClick={() => handleArtistSelection(artist.id)}>
+              {selectedArtists.includes(artist.id) ? "—" : "+"}
+            </button>
+          </span>
         </div>
-        </div>
+      </div>
     ));
-};
+  };
+
+  const navigatePage = () => {
+    if (artists.length + selectedTracks.length < 3) {
+      alert('Please select at least 3 seeds');
+      return;
+    } else {
+      navigate("ignore for now")
+    }
+  }
 
   document.body.style.backgroundColor = "#EBD6C1";
   return (
     <div className="q2-page" >
-      <div className class="q2-title">
+      <div className="q2-title">
         <h1>What kinds of <span style={{ color: "#E2B47D" }}>artists</span> do you want to listen to?</h1>
         <p>
           The final step! Hit continue and I’ll start on your playlist.
@@ -72,6 +81,7 @@ export function QuestionTwoPage(props) {
           {renderArtists()}
         </div>
       </section>
+      <span><button className="front-page-but" onClick={navigatePage}>Continue</button></span>
     </div>
   );
 }
